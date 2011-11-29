@@ -7,7 +7,7 @@ head
 body
 	h1= title
 
-	form(id='form', action='/', method='post')
+	form(id='form', action='/new.json', method='post')
 		input(name='date', type='text')
 		input(name='description', type='text')
 		input(name='amount', type='text')
@@ -15,4 +15,4 @@ body
 	#list
 		- each receipt in receipts
 			p(id='p#{receipt.id}') #{dateFormat(receipt.date, 'mm/dd/yyyy')}, #{receipt.description}, #{receipt.amount}
-				a(href='/#{receipt.id}/delete', class='delete', id='#{receipt.id}') Delete
+				a(href='/#{receipt.id}/delete', class='delete', id='#{receipt.id}')  Delete

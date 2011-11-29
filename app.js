@@ -5,7 +5,8 @@
 
 var express = require('express'),
 	routes = require('./routes'),
-	dateFormat = require('dateformat');
+	dateFormat = require('dateformat'),
+	stylus = require('stylus');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/receipts');
@@ -31,6 +32,10 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(require("stylus").middleware({
+	src: __dirname + "/public",
+	compress: true
+  }));
   app.use(express.static(__dirname + '/public'));
 });
 
