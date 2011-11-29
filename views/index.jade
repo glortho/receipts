@@ -1,0 +1,18 @@
+!!!
+head
+	script(src="/socket.io/socket.io.js")
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
+	script(src="/javascripts/date.format.js")
+	script(src="/javascripts/application.js")
+body
+	h1= title
+
+	form(id='form', action='/', method='post')
+		input(name='date', type='text')
+		input(name='description', type='text')
+		input(name='amount', type='text')
+		input(type='submit')
+	#list
+		- each receipt in receipts
+			p(id='p#{receipt.id}') #{dateFormat(receipt.date, 'mm/dd/yyyy')}, #{receipt.description}, #{receipt.amount}
+				a(href='/#{receipt.id}/delete', class='delete', id='#{receipt.id}') Delete
