@@ -50,20 +50,18 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res) {
-	Receipt.find({}, function (err, docs) {
-		res.render('index', { title: 'Receipts Index' , receipts: docs,  dateFormat: dateFormat});
-	});
-});
-
-app.get('/:id.:format?', function(req, res) {
-	var receipt = Receipt.findById(req.params.id);
-	res.send(receipt);
+	res.render('index', { title: 'Receipts Index' });
 });
 
 app.get('/list.:format?', function(req, res) {
 	Receipt.find({}, function (err, docs) {
 		res.send(docs);
 	});
+});
+
+app.get('/:id.:format?', function(req, res) {
+	var receipt = Receipt.findById(req.params.id);
+	res.send(receipt);
 });
 
 app.get('/:id/delete', function(req, res) {

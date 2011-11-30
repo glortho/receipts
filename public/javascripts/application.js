@@ -29,7 +29,8 @@ var receiptApp = (function($) {
 
 			$.ajax({
 				url: '/list.json',
-				type: 'get'
+				type: 'get',
+				dataType: 'json'
 			})
 			.done(function(data) {
 				for (var i = data.length - 1; i >= 0; i--) {
