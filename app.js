@@ -55,6 +55,17 @@ app.get('/', function(req, res) {
 	});
 });
 
+app.get('/:id.:format?', function(req, res) {
+	var receipt = Receipt.findById(req.params.id);
+	res.send(receipt);
+});
+
+app.get('/list.:format?', function(req, res) {
+	Receipt.find({}, function (err, docs) {
+		res.send(docs);
+	});
+});
+
 app.get('/:id/delete', function(req, res) {
 	var receipt = Receipt.findById(req.params.id);
 	receipt.remove();

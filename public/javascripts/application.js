@@ -8,6 +8,8 @@ var receiptApp = (function($) {
 		var that = this;
 
 		$(function() {
+			that.collection.show();
+
 			$('#form').on('submit', function() {
 				that.save(this);
 				return false;
@@ -19,6 +21,29 @@ var receiptApp = (function($) {
 			});
 
 		});
+	};
+
+	this.collection = {		
+		show: function() {
+			var that = this;
+
+			$.ajax({
+				url: '/list.json',
+				type: 'get'
+			})
+			.done(function(data) {
+				for (var i = data.length - 1; i >= 0; i--) {
+					that.write_one(data[i]);
+				}
+			});
+		},
+
+		write_one: function(data) {
+			$('<p/>', {id: 'p' + data._id})
+				.appendTo('#list')
+				.html(dateFormat(data.date, 'mm/dd/yyyy') + ', ' + data.description + ', ' + data.amount)
+				.append("<a href='/" + data._id + "/delete' id='" + data._id + "' class='delete'>Delete</a>");
+		}
 	};
 
 	this.destroy = function(el) {
@@ -53,7 +78,7 @@ var receiptApp = (function($) {
 			socket = io.connect('http://localhost');
 
 		socket.on('new', function(data) {
-			that.write_one(data);
+			that.collection.write_one(data);
 		});
 
 		socket.on('delete', function(id) {
@@ -61,13 +86,6 @@ var receiptApp = (function($) {
 		});
 
 		return socket;
-	};
-
-	this.write_one = function(data) {
-		$('<p/>', {id: 'p' + data._id})
-			.appendTo('#list')
-			.html(dateFormat(data.date, 'mm/dd/yyyy') + ', ' + data.description + ', ' + data.amount)
-			.append("<a href='/" + data._id + "/delete' id='" + data._id + "' class='delete'>Delete</a>");
 	};
 
 	this.init();
